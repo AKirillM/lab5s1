@@ -61,6 +61,21 @@ abstract class ModPriLowTag extends Tag {
     }
 }
 
+abstract class MemSizeNotColorTag extends Tag {
+    private int memSize;
+    private Color col;
+
+    public MemSizeNotColorTag(int memSize, Color col){
+        this.memSize = memSize;
+        this.col = col;
+    }
+
+    @Override
+    public boolean find(Phone ph){
+        return ph.getMemorySize() ==memSize && !ph.getColor().equals(col);
+    }
+}
+
 public class FindPhone {
     private List<Phone> data=new PhoneDB().getPhoneData();
     
