@@ -51,4 +51,12 @@ public class FindPhoneTest {
         
         assertEquals(3, find.size());
     }
+
+    @Test
+    public void bModelAndPriceLowAndColor(){
+        FindPhone fph=new FindPhone();
+        List<Phone> find=fph.byModelAndPriceLowAndColor("xokii",15000,Color.WHITE);
+
+        assertEquals(1,find.size());
+    }
 }
