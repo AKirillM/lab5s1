@@ -7,7 +7,7 @@ abstract class Tag {
     public abstract boolean find(Phone ph);
 }
 
-abstract class ColorTag extends Tag {
+class ColorTag extends Tag {
     private Color col;
 
     public ColorTag(Color col){
@@ -20,7 +20,7 @@ abstract class ColorTag extends Tag {
     }
 }
 
-abstract class ModelTag extends Tag {
+class ModelTag extends Tag {
     private String mod;
 
     public ModelTag(String mod){
@@ -33,7 +33,7 @@ abstract class ModelTag extends Tag {
     }
 }
 
-abstract class MemSizeTag extends Tag {
+class MemSizeTag extends Tag {
     private int memSize;
 
     public MemSizeTag(int memSize){
@@ -46,7 +46,7 @@ abstract class MemSizeTag extends Tag {
     }
 }
 
-abstract class ModPriLowTag extends Tag {
+class ModPriLowTag extends Tag {
     private String mod;
     private double price;
 
@@ -61,7 +61,7 @@ abstract class ModPriLowTag extends Tag {
     }
 }
 
-abstract class MemSizeNotColorTag extends Tag {
+class MemSizeNotColorTag extends Tag {
     private int memSize;
     private Color col;
 
@@ -78,40 +78,44 @@ abstract class MemSizeNotColorTag extends Tag {
 
 public class FindPhone {
     private List<Phone> data=new PhoneDB().getPhoneData();
-    
-    public List<Phone> byColor(Color col) {
-        List<Phone> find=new LinkedList<>();
-        for(Phone ph : data)
-            if (ph.getColor()==col)   find.add(ph);
-        return find;
+
+    public List<Phone> findPhones(Tag tag){
+        List<Phone> foundPhones = new LinkedList<>();
+        for (Phone ph : data){
+            if (tag.find(ph)){
+                foundPhones.add(ph);
+            }
+        }
+        return foundPhones;
     }
-    
-    public List<Phone> byModel(String mod) {
-        List<Phone> find=new LinkedList<>();
-        for(Phone ph : data)
-            if (ph.getModel().equalsIgnoreCase(mod))   find.add(ph);
-        return find;
+
+    public List<Phone> byColor(Color col){
+        ColorTag colorTag = new ColorTag(col);
+
+        return findPhones(colorTag);
     }
-    
+
+    public List<Phone> byModel(String mod){
+        ModelTag modelTag = new ModelTag(mod);
+
+        return findPhones(modelTag);
+    }
+
     public List<Phone> byMSize(int memSize) {
-        List<Phone> find=new LinkedList<>();
-        for(Phone ph : data)
-            if (ph.getMemorySize()==memSize)   find.add(ph);
-        return find;
+        MemSizeTag memSizeTag = new MemSizeTag(memSize);
+
+        return findPhones(memSizeTag);
     }
-    
+
     public List<Phone> byModelAndPriceLow(String mod, double price) {
-        List<Phone> find=new LinkedList<>();
-        for(Phone ph : data)
-            if (ph.getModel().equalsIgnoreCase(mod) &&
-                                ph.getPrice()<price)   find.add(ph);
-        return find;
+        ModPriLowTag modPriLowTag = new ModPriLowTag(mod, price);
+
+        return findPhones(modPriLowTag);
     }
-    
-    public List<Phone> byMSizeAndNotColor(int memSize, Color col) {
-        List<Phone> find=new LinkedList<>();
-        for(Phone ph : data)
-            if (ph.getMemorySize()==memSize && !(ph.getColor()==col))   find.add(ph);
-        return find;
-    }    
+
+    public List<Phone> byMSizeAndNotColor(int memSize, Color col){
+        MemSizeNotColorTag memSizeNotColorTag = new MemSizeNotColorTag(memSize, col);
+
+        return findPhones(memSizeNotColorTag);
+    }
 }
