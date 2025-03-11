@@ -76,6 +76,24 @@ class MemSizeNotColorTag extends Tag {
     }
 }
 
+class ModPriLowColorTag extends Tag {
+    private String mod;
+    private double price;
+    private Color col;
+
+    public ModPriLowColorTag(String mod, double price, Color col){
+        this.mod = mod;
+        this.col = col;
+        this.price = price;
+    }
+
+    @Override
+    public boolean find(Phone ph){
+        return ph.getModel().equalsIgnoreCase(mod) &&
+                ph.getPrice() < price && ph.getColor().equals(col);
+    }
+}
+
 public class FindPhone {
     private List<Phone> data=new PhoneDB().getPhoneData();
 
@@ -91,31 +109,31 @@ public class FindPhone {
 
     public List<Phone> byColor(Color col){
         ColorTag colorTag = new ColorTag(col);
-
         return findPhones(colorTag);
     }
 
     public List<Phone> byModel(String mod){
         ModelTag modelTag = new ModelTag(mod);
-
         return findPhones(modelTag);
     }
 
     public List<Phone> byMSize(int memSize) {
         MemSizeTag memSizeTag = new MemSizeTag(memSize);
-
         return findPhones(memSizeTag);
     }
 
     public List<Phone> byModelAndPriceLow(String mod, double price) {
         ModPriLowTag modPriLowTag = new ModPriLowTag(mod, price);
-
         return findPhones(modPriLowTag);
     }
 
     public List<Phone> byMSizeAndNotColor(int memSize, Color col){
         MemSizeNotColorTag memSizeNotColorTag = new MemSizeNotColorTag(memSize, col);
-
         return findPhones(memSizeNotColorTag);
+    }
+
+    public List<Phone> byModelAndPriceLowAndColor(String mod, double price, Color col) {
+        ModPriLowColorTag modPriLowColorTag = new ModPriLowColorTag(mod, price, col);
+        return findPhones(modPriLowColorTag);
     }
 }
