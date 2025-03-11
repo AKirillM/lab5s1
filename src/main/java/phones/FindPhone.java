@@ -20,6 +20,19 @@ abstract class ColorTag extends Tag {
     }
 }
 
+abstract class ModelTag extends Tag {
+    private String mod;
+
+    public ModelTag(String mod){
+        this.mod = mod;
+    }
+
+    @Override
+    public boolean find(Phone ph){
+        return ph.getModel().equalsIgnoreCase(mod);
+    }
+}
+
 public class FindPhone {
     private List<Phone> data=new PhoneDB().getPhoneData();
     
