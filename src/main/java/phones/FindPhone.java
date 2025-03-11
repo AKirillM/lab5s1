@@ -33,6 +33,19 @@ abstract class ModelTag extends Tag {
     }
 }
 
+abstract class MemSizeTag extends Tag {
+    private int memSize;
+
+    public MemSizeTag(int memSize){
+        this.memSize = memSize;
+    }
+
+    @Override
+    public boolean find(Phone ph){
+        return ph.getMemorySize() == memSize;
+    }
+}
+
 public class FindPhone {
     private List<Phone> data=new PhoneDB().getPhoneData();
     
