@@ -46,6 +46,21 @@ abstract class MemSizeTag extends Tag {
     }
 }
 
+abstract class ModPriLowTag extends Tag {
+    private String mod;
+    private double price;
+
+    public ModPriLowTag(String mod, double price){
+        this.mod = mod;
+        this.price = price;
+    }
+
+    @Override
+    public boolean find(Phone ph){
+        return ph.getModel().equalsIgnoreCase(mod) && ph.getPrice() < price;
+    }
+}
+
 public class FindPhone {
     private List<Phone> data=new PhoneDB().getPhoneData();
     
